@@ -1,0 +1,12 @@
+.layout-display1 {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  height: 100vh;
+  padding: 1.5rem;
+}
+
+.layout-display1 [data-module='title'] {
+  grid-column: 1 / -1;
+  font-size: 3rem;
+}

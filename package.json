@@ -1,0 +1,30 @@
+{
+  "name": "school-board",
+  "private": true,
+  "workspaces": [
+    "server",
+    "panel",
+    "display"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev:server": "npm run dev -w server",
+    "dev:panel": "npm run dev -w panel",
+    "dev:display": "npm run dev -w display",
+    "build": "npm run build -ws --if-present",
+    "typecheck": "npm run typecheck -ws --if-present",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "db:up": "podman compose up -d",
+    "db:down": "podman compose down",
+    "db:logs": "podman compose logs -f db",
+    "dev": "concurrently -n server,panel,display -c blue,green,yellow \"npm:dev:server\" \"npm:dev:panel\" \"npm:dev:display\""
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "concurrently": "^10.0.5",
+    "typescript": "^7.0.2"
+  }
+}

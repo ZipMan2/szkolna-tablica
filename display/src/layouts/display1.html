@@ -1,0 +1,38 @@
+<header data-module="title"></header>
+
+<section class="panel">
+  <h2>Zastępstwa</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Godz.</th>
+        <th>Klasa</th>
+        <th>Nauczyciel</th>
+        <th>Sala</th>
+      </tr>
+    </thead>
+    <tbody data-module="substitutions">
+      <template>
+        <tr>
+          <td data-f="hour"></td>
+          <td data-f="class"></td>
+          <td data-f="teacher"></td>
+          <td data-f="room"></td>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+</section>
+
+<section class="panel">
+  <h2>Ogłoszenia</h2>
+  <ul data-module="announcements">
+    <template>
+      <li data-f="text"></li>
+    </template>
+  </ul>
+</section>
+
+<section class="panel">
+  <img data-module="gallery" alt="" />
+</section>
