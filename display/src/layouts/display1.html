@@ -1,38 +1,110 @@
-<header data-module="title"></header>
+<header class="board-header">
+  <div class="brand">
+    <div class="logo-box">
+      <img data-f="logo" src="/logo.svg" alt="Logo Szkoły" class="school-logo" />
+    </div>
+    <div class="brand-text">
+      <h1 data-module="title" class="school-name">I LICEUM OGÓLNOKSZTAŁCĄCE</h1>
+      <p class="school-subtitle">
+        <span class="status-dot"></span>
+        System Informacji Szkolnej &bull; Hol Główny
+      </p>
+    </div>
+  </div>
 
-<section class="panel">
-  <h2>Zastępstwa</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Godz.</th>
-        <th>Klasa</th>
-        <th>Nauczyciel</th>
-        <th>Sala</th>
-      </tr>
-    </thead>
-    <tbody data-module="substitutions">
-      <template>
-        <tr>
-          <td data-f="hour"></td>
-          <td data-f="class"></td>
-          <td data-f="teacher"></td>
-          <td data-f="room"></td>
-        </tr>
-      </template>
-    </tbody>
-  </table>
-</section>
+  <div class="header-status">
+    <div class="countdown-card" data-module="countdown">
+      <span class="status-label" data-f="label">Do końca lekcji</span>
+      <span class="countdown-timer" data-f="timer">00:00</span>
+    </div>
 
-<section class="panel">
-  <h2>Ogłoszenia</h2>
-  <ul data-module="announcements">
-    <template>
-      <li data-f="text"></li>
-    </template>
-  </ul>
-</section>
+    <div class="clock-card" data-module="clock">
+      <div class="time" data-f="time">00:00:00</div>
+      <div class="date" data-f="date">Poniedziałek, 15 Maja</div>
+    </div>
+  </div>
+</header>
 
-<section class="panel">
-  <img data-module="gallery" alt="" />
-</section>
+<main class="board-content">
+  <!-- LEWA KOLUMNA: Tabela Zastępstw (~68% szerokości) -->
+  <section class="panel panel-substitutions">
+    <div class="panel-header">
+      <div class="panel-title-group">
+        <span class="icon-badge">⇄</span>
+        <div>
+          <h2>Zastępstwa i Zmiany</h2>
+          <p class="panel-subtitle">Aktualne informacje na dzień dzisiejszy</p>
+        </div>
+      </div>
+      <span class="badge badge-rose">
+        <span class="pulse-dot"></span>
+        Zastępstwa
+      </span>
+    </div>
+
+    <div class="table-container">
+      <table class="substitutions-table">
+        <thead>
+          <tr>
+            <th class="col-center">Lekcja</th>
+            <th>Klasa</th>
+            <th>Nauczyciel Nieobecny</th>
+            <th>Zastępca / Status</th>
+            <th class="col-center">Sala</th>
+            <th>Przedmiot / Uwagi</th>
+          </tr>
+        </thead>
+        <tbody data-module="substitutions">
+          <template>
+            <tr>
+              <td data-f="hour" class="cell-hour col-center"></td>
+              <td data-f="class" class="cell-class"></td>
+              <td data-f="teacher" class="cell-teacher"></td>
+              <td data-f="replacement" class="cell-replacement"></td>
+              <td data-f="room" class="cell-room col-center"></td>
+              <td data-f="note" class="cell-note"></td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="ticker-bar" data-module="ticker">
+      <span class="ticker-badge">Informacja</span>
+      <span class="ticker-text" data-f="text">Prosimy uczniów klas maturalnych o zgłaszanie się do gabinetu
+        pedagoga.</span>
+    </div>
+  </section>
+
+  <!-- PRAWA KOLUMNA: Ogłoszenia i Galeria (~32% szerokości) -->
+  <aside class="sidebar">
+    <section class="panel panel-announcements">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="icon-badge amber">🔔</span>
+          <h2>Komunikaty</h2>
+        </div>
+        <span class="panel-subtitle">Dzisiaj</span>
+      </div>
+
+      <ul data-module="announcements" class="announcements-list">
+        <template>
+          <li class="announcement-card">
+            <div class="announcement-meta">
+              <span class="announcement-tag" data-f="tag">WAŻNE</span>
+              <span class="announcement-time" data-f="time">09:30</span>
+            </div>
+            <h3 class="announcement-title" data-f="title"></h3>
+            <p class="announcement-text" data-f="text"></p>
+          </li>
+        </template>
+      </ul>
+    </section>
+
+    <section class="panel panel-gallery">
+      <div class="gallery-wrapper">
+        <img data-module="gallery" alt="Szkolna Galeria" class="gallery-image" />
+      </div>
+    </section>
+  </aside>
+</main>
