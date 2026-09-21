@@ -126,3 +126,62 @@ Kreator pierwszego uruchomienia i logowanie (register tylko przy pustej bazie, l
 Panel: ekran stanu połączenia, wybór layoutu, moduły.
 WS: snapshot po połączeniu i po każdej zmianie w panelu.
 GitHub Actions: build i wydanie .zip z dist/ i Compose.
+
+---
+W głównym katalogu:
+
+npm run db:down -- -v      # zatrzymuje kontener i usuwa wolumen z danymi
+npm run db:up
+npm run db:migrate -w server
+npm run dev:server        
+
+przetestować:
+podman exec -it schoolboard-db psql -U schoolboard -d schoolboard -c "TRUNCATE users CASCADE;"
+---
+
+Struktura
+| Plik | Rola |
+| --- | --- |
+| `index.html` | Pusty szkielet — tylko `<div id="app">` + start `main.ts` |
+| `src/main.ts` | Start aplikacji: wybiera layout, podłącza WS (lub mock), woła `render()` |
+| `src/render.ts` | Logika wypełniania danych — tytuł, tabela, ogłoszenia, galeria |
+| `src/layouts/index.ts` | Ładuje layout HTML + CSS po nazwie (`display1` itd.) |
+| `src/layouts/display1.html` | Struktura HTML konkretnego layoutu (sloty `data-module`) |
+| `src/layouts/display1.css` | Wygląd tego layoutu (siatka, kolory, fonty) |
+| `src/styles/style.css` | Style wspólne dla wszystkich layoutów |
+| `src/types/types.ts` | Typy danych z serwera |
+
+## Auth & Users – API
+
+**Prefix:** `/api/v1`
+
+| Method | Path | Auth | Body | Response | Opis |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/auth/status` | – | – | `{ setupRequired: boolean }` | Czy trzeba utworzyć pierwszego admina |
+| `POST` | `/auth/setup` | – | `"{ username, password, setupCode }"` | `201 { user } + cookie` | Kreator pierwszego uruchomienia (tylko gdy brak userów) |
+| `POST` | `/auth/login` | – | `"{ username, password }"` | `{ user } + cookie` | Logowanie |
+| `POST` | `/auth/logout` | – | – | `{ ok: true }` | Wylogowanie (usuwa sesję + cookie) |
+| `GET` | `/auth/me` | sesja | – | `{ user }` | Aktualny zalogowany użytkownik |
+
+Rate limit: setup i login → max 5/min.
+
+Błędy:
+- 401 – złe dane / brak sesji
+- 403 – zły setup code / zła rola / bad origin
+- 409 – setup już zrobiony
+
+### Users (tylko admin)
+
+| Method | Path | Body | Response | Opis |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/users` | – | `User[]` | Lista użytkowników |
+| `POST` | `/users` | `{ username, password, role }` | `201 User` | Utworzenie |
+| `PATCH` | `/users/:id` | `{ password?, role? }` | `User` | Edycja (wymusza re-login) |
+| `DELETE` | `/users/:id` | – | `204` | Usunięcie |
+
+**User shape:** `{ id, username, role, createdAt }` *(bez hasha hasła)*
+
+
+
+
+

@@ -13,6 +13,10 @@ const schema = z.object({
     .transform(v => v === 'true'),
   DATABASE_URL: z.string().url(),
   COOKIE_SECRET: z.string().min(32),
+  TRUST_PROXY: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform(v => v === 'true'),
 })
 
 // Validate env

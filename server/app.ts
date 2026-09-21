@@ -18,15 +18,16 @@ const autoloadIfExists = async (app: FastifyInstance, options: AutoloadPluginOpt
 export async function buildApp() {
   // Logger setup
   const app = Fastify({
+    trustProxy: env.TRUST_PROXY,
     logger: {
       level: env.LOG_LEVEL,
       transport: isDevelopment ? { target: 'pino-pretty' } : undefined,
-      redact: ['headers.authorization', 'headers.cookie'], 
+      redact: ['headers.authorization', 'headers.cookie'],
     },
     genReqId: req => (req.headers['x-request-id'] as string) ?? randomUUID(),
   })
 
-  // Autoload global plugins 
+  // Autoload global plugins
   await autoloadIfExists(app, {
     dir: join(__dirname, 'plugins'),
     dirNameRoutePrefix: false,

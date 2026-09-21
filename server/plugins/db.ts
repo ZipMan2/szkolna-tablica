@@ -5,12 +5,15 @@ import postgres from 'postgres'
 import { env } from '../config/env.js'
 import * as schema from '../db/schema.js'
 
+// --- start types
 declare module 'fastify' {
   interface FastifyInstance {
     db: PostgresJsDatabase<typeof schema>
   }
 }
+// --- end types
 
+// --- plugin
 export default fp(async (app: FastifyInstance) => {
   const client = postgres(env.DATABASE_URL, { max: 5, onnotice: () => {} })
 
