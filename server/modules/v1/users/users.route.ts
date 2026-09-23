@@ -72,9 +72,9 @@ const route: FastifyPluginAsync = async app => {
 
     // Delete user
     const deleted = await app.db.delete(users).where(eq(users.id, id)).returning({ id: users.id })
-    
+
     if (!deleted.length) throw app.httpErrors.notFound()
-    return reply.code(204).send() // sessions are removed by ON DELETE CASCADE
+    return reply.code(204).send()
   })
 }
 

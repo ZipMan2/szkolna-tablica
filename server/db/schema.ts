@@ -1,4 +1,4 @@
-import { index, pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { index, integer, jsonb, pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
 export const roleEnum = pgEnum('role', ['admin', 'editor'])
 
@@ -21,3 +21,22 @@ export const sessions = pgTable(
   },
   t => [index('sessions_user_idx').on(t.userId)],
 )
+
+export const screens = pgTable('screens', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  slug: text('slug').notNull().unique(),
+  name: text('name').notNull(),
+  layout: text('layout').notNull().default('one-column'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
+export const blocks = pgTable('blocks', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  screenId: uuid('screen_id')
+    .notNull()
+    .references(() => screens.id, { onDelete: 'cascade' }),
+  type: text('type').notNull(),
+  slot: text('slot').notNull(),
+  data: jsonb('data').notNull().default({}),
+  position: integer('position').notNull().default(0),
+})
